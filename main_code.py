@@ -103,36 +103,36 @@ class Menu(ctk.CTkFrame):
             master=self,
             text="New customer",
             font=("Inter", 12),
-            width=200,
-            height=50,
+            corner_radius=10,
+            height=60,
             border_width=2,
-            border_color="#2D313C",
+            border_color="gray20",
             fg_color="transparent",
-            hover_color="#5889F0",
+            hover_color="gray50",
             command=lambda: self.master.switch_frame("New Customer"),
         )
         self.return_item_button = ctk.CTkButton(
             master=self,
             text="Return item",
             font=("Inter", 12),
-            width=200,
-            height=50,
+            corner_radius=10,
+            height=60,
             border_width=2,
-            border_color="#2D313C",
+            border_color="gray20",
             fg_color="transparent",
-            hover_color="#5889F0",
+            hover_color="gray50",
             command=lambda: self.master.switch_frame("Return Item"),
         )
         self.update_inventory_button = ctk.CTkButton(
             master=self,
             text="Update inventory",
             font=("Inter", 12),
-            width=200,
-            height=50,
+            corner_radius=10,
+            height=60,
             border_width=2,
-            border_color="#2D313C",
+            border_color="gray20",
             fg_color="transparent",
-            hover_color="#5889F0",
+            hover_color="gray50",
             command=lambda: self.master.switch_frame("Update Inventory"),
         )
         self.end_program_button = ctk.CTkButton(
@@ -155,15 +155,29 @@ class Menu(ctk.CTkFrame):
 
         # Place widgets
         self.new_customer_button.pack(
-            pady=20,
+            pady=10,
+            side="top",
+            fill="both",
+            padx=10,
+
         )
         self.return_item_button.pack(
-            pady=20,
+            pady=10,
+            side="top",
+            fill="both",
+            padx=10,
         )
         self.update_inventory_button.pack(
-            pady=20,
+            pady=10,
+            side="top",
+            fill="both",
+            padx=10,
         )
-        self.end_program_button.pack(pady=20, side="bottom")
+        self.end_program_button.pack(
+            pady=20,
+            padx=10,
+            side="bottom",
+            fill="both",)
 
     def end_program(self):
         """
@@ -197,7 +211,7 @@ class Main(ctk.CTkFrame):
             Return_item_frame,
             Update_inventory_frame,
         ]:
-            frame_instance = frame_class(self, fg_color="#2D313C", bg_color="#2D313C")
+            frame_instance = frame_class(self, fg_color="#2D313C")
             self.frames[frame_instance.frame_name] = frame_instance
 
         # Show the initial frame
@@ -210,6 +224,11 @@ class Main(ctk.CTkFrame):
         Args:
         - frame_name (str): The name of the frame to switch to.
         """
+        # set button color for selected button
+        self.master.menu.new_customer_button.configure(fg_color="gray25" if frame_name == "New Customer" else "transparent")
+        self.master.menu.return_item_button.configure(fg_color="gray25" if frame_name == "Return Item" else "transparent")
+        self.master.menu.update_inventory_button.configure(fg_color="gray25" if frame_name == "Update Inventory" else "transparent")
+
         # Hide the current frame
         if self.current_frame:
             self.current_frame.place_forget()
@@ -269,11 +288,15 @@ class New_customer_frame(ctk.CTkFrame):
         # Add button
         self.add_button = ctk.CTkButton(
             master=self,
-            text="Add",
-            font=("Inter", 14),
-            width=120,
-            height=40,
-            fg_color="#5988F4",
+            text="Add item",
+            font=("Inter", 12),
+            width=100,
+            height=30,
+            border_width=1,
+            border_color="#5988F4",
+            hover_color="#5988F4",
+            corner_radius=5,
+            fg_color="transparent",
             command=lambda: self.add_item(
                 self.product_id_entry.get(), self.quantity_combo_box.get()
             ),
@@ -282,11 +305,12 @@ class New_customer_frame(ctk.CTkFrame):
         # Remove button
         self.remove_button = ctk.CTkButton(
             master=self,
-            text="Remove",
-            font=("Inter", 11),
+            text="Remove item",
+            font=("Inter", 12),
             border_width=1,
             border_color="#FC0079",
             hover_color="#FC0079",
+            corner_radius=5,
             width=100,
             height=30,
             fg_color="transparent",
@@ -306,10 +330,14 @@ class New_customer_frame(ctk.CTkFrame):
         self.checkout_button = ctk.CTkButton(
             master=self,
             text="Checkout",
-            font=("Inter", 14),
-            width=300,
-            height=50,
-            fg_color="#5988F4",
+            font=("Inter", 18),
+            width=250,
+            height=60,
+            border_width=2,
+            border_color="#5988F4",
+            hover_color="#5988F4",
+            corner_radius=10,
+            fg_color="transparent",
             command=lambda: self.checkout(),
         )
         self.clear_shopping_cart_button = ctk.CTkButton(
@@ -317,8 +345,8 @@ class New_customer_frame(ctk.CTkFrame):
             text="Clear shopping cart",
             font=("Inter", 11),
             border_width=1,
-            border_color="#FC0079",
-            hover_color="#FC0079",
+            border_color="#465372",
+            hover_color="#465372",
             width=150,
             height=30,
             fg_color="transparent",
@@ -331,24 +359,24 @@ class New_customer_frame(ctk.CTkFrame):
 
         """
         self.grid_columnconfigure((0, 1), weight=1)
-        self.grid_rowconfigure(6, weight=1)
+        self.grid_rowconfigure(5, weight=1)
 
         self.title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
         self.product_id_entry.grid(row=1, column=0, padx=10, pady=10, sticky="ne")
         self.quantity_combo_box.grid(row=1, column=1, padx=10, pady=10, sticky="nw")
         self.add_button.grid(
-            row=2, column=0, columnspan=2, padx=10, pady=10, sticky="n"
+            row=2, column=0, columnspan=1, padx=10, pady=10, sticky="e"
         )
         self.remove_button.grid(
-            row=3, column=0, columnspan=2, padx=10, pady=10, sticky="n"
+            row=2, column=1, columnspan=1, padx=10, pady=10, sticky="w"
         )
         self.checkout_button.grid(
-            row=4, column=0, columnspan=2, padx=20, pady=20, sticky="s"
+            row=3, column=0, columnspan=2, padx=10, pady=10
         )
         self.clear_shopping_cart_button.grid(
-            row=5, column=0, columnspan=2, padx=10, pady=10, sticky="n"
+            row=4, column=0, columnspan=2, padx=10, pady=0, sticky="s"
         )
-        self.text_box.grid(row=6, columnspan=2, padx=10, pady=10, sticky="nsew")
+        self.text_box.grid(row=5, columnspan=2, padx=10, pady=10, sticky="nsew")
 
     def add_item(self, product_id, quantity):
         """
@@ -496,11 +524,17 @@ class Return_item_frame(ctk.CTkFrame):
             master=self,
             values=[str(i) for i in range(1, 11)],
         )
-        self.return_button = ctk.CTkButton(
+        self.confirm_button = ctk.CTkButton(
             master=self,
-            text="Return",
-            font=("Inter", 12),
-            fg_color="#5988F4",
+            text="Confirm",
+            font=("Inter", 18),
+            width=200,
+            height=50,
+            corner_radius=10,
+            border_width=2,
+            border_color="#5988F4",
+            hover_color="#5988F4",
+            fg_color="transparent",
             command=lambda: self.return_item(
                 self.product_id_entry.get(), self.quantity_combo_box.get()
             ),
@@ -511,11 +545,14 @@ class Return_item_frame(ctk.CTkFrame):
         """
         Creates the layout for the Return Item interface.
         """
-        self.title_label.pack(pady=20)
-        self.product_id_entry.pack(pady=10)
-        self.quantity_combo_box.pack(pady=10)
-        self.return_button.pack(pady=10)
-        self.text_box.pack(padx=10, pady=10, fill="both", expand=True)
+        self.grid_columnconfigure((0, 1), weight=1)
+        self.grid_rowconfigure(3, weight=1)
+
+        self.title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
+        self.product_id_entry.grid(row=1, column=0, padx=10, pady=10, sticky="ne")
+        self.quantity_combo_box.grid(row=1, column=1, padx=10, pady=10, sticky="nw")
+        self.confirm_button.grid(row=2, column=0, columnspan=2, padx=10, pady=20, sticky="n")
+        self.text_box.grid(row=3, columnspan=2, padx=10, pady=10, sticky="nsew")
 
     def return_item(self, product_id, quantity, shopping_cart={}):
         """
@@ -637,10 +674,14 @@ class Update_inventory_frame(ctk.CTkFrame):
         self.add_product_tab.confirm_button = ctk.CTkButton(
             master=self.add_product_tab,
             text="Confirm",
-            font=("Inter", 12),
-            fg_color="#5988F4",
+            font=("Inter", 18),
+            fg_color="transparent",
+            border_width=2,
+            border_color="#5988F4",
+            hover_color="#5988F4",
+            corner_radius=10,
             width=200,
-            height=30,
+            height=50,
             command=lambda: self.add_product(
                 self.add_product_tab.name_entry.get(),
                 self.add_product_tab.product_id_entry.get(),
@@ -665,10 +706,14 @@ class Update_inventory_frame(ctk.CTkFrame):
         self.update_product_tab.confirm_button = ctk.CTkButton(
             master=self.update_product_tab,
             text="Confirm",
-            font=("Inter", 12),
-            fg_color="#5988F4",
+            font=("Inter", 18),
+            fg_color="transparent",
+            border_width=2,
+            border_color="#5988F4",
+            hover_color="#5988F4",
+            corner_radius=10,
             width=200,
-            height=30,
+            height=50,
             command=lambda: self.update_product(
                 self.update_product_tab.product_id_entry.get(),
                 self.update_product_tab.price_entry.get(),
@@ -684,10 +729,14 @@ class Update_inventory_frame(ctk.CTkFrame):
         self.delete_product_tab.confirm_button = ctk.CTkButton(
             master=self.delete_product_tab,
             text="Confirm",
-            font=("Inter", 12),
-            fg_color="#5988F4",
+            font=("Inter", 18),
+            fg_color="transparent",
+            border_width=2,
+            border_color="#5988F4",
+            hover_color="#5988F4",
+            corner_radius=10,
             width=200,
-            height=30,
+            height=50,
             command=lambda: self.delete_product(
                 self.delete_product_tab.product_id_entry.get(),
             ),
@@ -717,29 +766,36 @@ class Update_inventory_frame(ctk.CTkFrame):
         """
         Creates the layout for the Update Inventory interface.
         """
-        self.title_label.pack(pady=20)
-        self.tab_view.pack(fill="both", expand=True)
+        self.grid_columnconfigure((0, 1), weight=1)
+        self.grid_rowconfigure(3, weight=1)
+
+        self.title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
+        self.tab_view.grid(row=1, column=0, columnspan=2, pady=10, sticky="n")
+
+        self.add_product_tab = self.tab_view.tab("Add Product")
+        self.update_product_tab = self.tab_view.tab("Update Product")
+        self.delete_product_tab = self.tab_view.tab("Delete Product")
 
         # Add product tab
-        self.add_product_tab.name_entry.pack(padx=10, pady=10)
-        self.add_product_tab.product_id_entry.pack(padx=10, pady=10)
-        self.add_product_tab.price_entry.pack(padx=10, pady=10)
-        self.add_product_tab.quantity_combo_box.pack(padx=10, pady=10)
-        self.add_product_tab.confirm_button.pack(padx=10, pady=10)
+        self.add_product_tab.name_entry.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+        self.add_product_tab.product_id_entry.grid(row=0, column=1, padx=10, pady=10, sticky="n")
+        self.add_product_tab.price_entry.grid(row=0, column=2, padx=10, pady=10, sticky="n")
+        self.add_product_tab.quantity_combo_box.grid(row=1, column=1, padx=10, pady=10, sticky="n")
+        self.add_product_tab.confirm_button.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky="n")
 
         # Update product tab
-        self.update_product_tab.product_id_entry.pack(padx=10, pady=10)
-        self.update_product_tab.price_entry.pack(padx=10, pady=10)
-        self.update_product_tab.quantity_combo_box.pack(padx=10, pady=10)
-        self.update_product_tab.confirm_button.pack(padx=10, pady=10)
+        self.update_product_tab.product_id_entry.grid(row=0, column=0, padx=10, pady=10, sticky="nw")
+        self.update_product_tab.price_entry.grid(row=0, column=1, padx=10, pady=10, sticky="n")
+        self.update_product_tab.quantity_combo_box.grid(row=0, column=2, padx=10, pady=10, sticky="ne")
+        self.update_product_tab.confirm_button.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky="n")
 
         # Delete product tab
         self.delete_product_tab.product_id_entry.pack(padx=10, pady=10)
         self.delete_product_tab.confirm_button.pack(padx=10, pady=10)
 
         # textbox and view inventory button
-        self.view_inventory_button.pack(side="top", padx=10, pady=10)
-        self.text_box.pack(side="top", pady=10, padx=10, fill="both", expand=True)
+        self.view_inventory_button.grid(row=2, column=0, columnspan=2, padx=10, pady=0, sticky="s")
+        self.text_box.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
 
     def view_inventory(self):
         """
