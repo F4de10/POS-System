@@ -159,7 +159,6 @@ class Menu(ctk.CTkFrame):
             side="top",
             fill="both",
             padx=10,
-
         )
         self.return_item_button.pack(
             pady=10,
@@ -177,7 +176,8 @@ class Menu(ctk.CTkFrame):
             pady=20,
             padx=10,
             side="bottom",
-            fill="both",)
+            fill="both",
+        )
 
     def end_program(self):
         """
@@ -225,9 +225,15 @@ class Main(ctk.CTkFrame):
         - frame_name (str): The name of the frame to switch to.
         """
         # set button color for selected button
-        self.master.menu.new_customer_button.configure(fg_color="gray25" if frame_name == "New Customer" else "transparent")
-        self.master.menu.return_item_button.configure(fg_color="gray25" if frame_name == "Return Item" else "transparent")
-        self.master.menu.update_inventory_button.configure(fg_color="gray25" if frame_name == "Update Inventory" else "transparent")
+        self.master.menu.new_customer_button.configure(
+            fg_color="gray25" if frame_name == "New Customer" else "transparent"
+        )
+        self.master.menu.return_item_button.configure(
+            fg_color="gray25" if frame_name == "Return Item" else "transparent"
+        )
+        self.master.menu.update_inventory_button.configure(
+            fg_color="gray25" if frame_name == "Update Inventory" else "transparent"
+        )
 
         # Hide the current frame
         if self.current_frame:
@@ -365,13 +371,13 @@ class New_customer_frame(ctk.CTkFrame):
         self.product_id_entry.grid(row=1, column=0, padx=10, pady=10, sticky="ne")
         self.quantity_combo_box.grid(row=1, column=1, padx=10, pady=10, sticky="nw")
         self.add_button.grid(
-            row=2, column=0, columnspan=1, padx=10, pady=10, sticky="e"
+            row=2, column=0, columnspan=1, padx=30, pady=10, sticky="e"
         )
         self.remove_button.grid(
-            row=2, column=1, columnspan=1, padx=10, pady=10, sticky="w"
+            row=2, column=1, columnspan=1, padx=30, pady=10, sticky="w"
         )
         self.checkout_button.grid(
-            row=3, column=0, columnspan=2, padx=10, pady=10
+            row=3, column=0, columnspan=2, padx=40, pady=20, sticky="news"
         )
         self.clear_shopping_cart_button.grid(
             row=4, column=0, columnspan=2, padx=10, pady=0, sticky="s"
@@ -528,16 +534,28 @@ class Return_item_frame(ctk.CTkFrame):
             master=self,
             text="Confirm",
             font=("Inter", 18),
-            width=200,
-            height=50,
-            corner_radius=10,
+            width=250,
+            height=60,
             border_width=2,
             border_color="#5988F4",
             hover_color="#5988F4",
+            corner_radius=10,
             fg_color="transparent",
             command=lambda: self.return_item(
                 self.product_id_entry.get(), self.quantity_combo_box.get()
             ),
+        )
+        self.clear_text_box_button = ctk.CTkButton(
+            master=self,
+            text="Clear text box",
+            font=("Inter", 10),
+            width=150,
+            height=30,
+            border_width=2,
+            border_color="#465372",
+            hover_color="#465372",
+            fg_color="transparent",
+            command=lambda: self.clear_text_box(),
         )
         self.text_box = ctk.CTkTextbox(self)
 
@@ -546,13 +564,18 @@ class Return_item_frame(ctk.CTkFrame):
         Creates the layout for the Return Item interface.
         """
         self.grid_columnconfigure((0, 1), weight=1)
-        self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(4, weight=1)
 
         self.title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
         self.product_id_entry.grid(row=1, column=0, padx=10, pady=10, sticky="ne")
         self.quantity_combo_box.grid(row=1, column=1, padx=10, pady=10, sticky="nw")
-        self.confirm_button.grid(row=2, column=0, columnspan=2, padx=10, pady=20, sticky="n")
-        self.text_box.grid(row=3, columnspan=2, padx=10, pady=10, sticky="nsew")
+        self.confirm_button.grid(
+            row=2, column=0, columnspan=2, padx=40, pady=20, sticky="nswe"
+        )
+        self.clear_text_box_button.grid(
+            row=3, column=0, columnspan=2, padx=10, pady=0, sticky="s"
+        )
+        self.text_box.grid(row=4, columnspan=2, padx=10, pady=10, sticky="nsew")
 
     def return_item(self, product_id, quantity, shopping_cart={}):
         """
@@ -591,6 +614,12 @@ class Return_item_frame(ctk.CTkFrame):
             text (str): The text to be displayed in the text box.
         """
         self.text_box.insert("end", text)
+
+    def clear_text_box(self):
+        """
+        Clears the text box.
+        """
+        self.text_box.delete("1.0", "end")
 
 
 class Update_inventory_frame(ctk.CTkFrame):
@@ -636,10 +665,14 @@ class Update_inventory_frame(ctk.CTkFrame):
         )
         self.tab_view = ctk.CTkTabview(
             self,
-            width=500,
-            height=0,
-            fg_color="#2D313C",
+            width=400,
+            height=50,
+            fg_color="transparent",
+            segmented_button_fg_color="gray25",
             segmented_button_selected_color="#5988F4",
+            segmented_button_selected_hover_color="gray50",
+            segmented_button_unselected_color="gray25",
+            segmented_button_unselected_hover_color="gray50",
         )
         # Add tabs
         self.tab_view.add("Add Product")
@@ -676,12 +709,12 @@ class Update_inventory_frame(ctk.CTkFrame):
             text="Confirm",
             font=("Inter", 18),
             fg_color="transparent",
+            width=250,
+            height=60,
             border_width=2,
             border_color="#5988F4",
             hover_color="#5988F4",
             corner_radius=10,
-            width=200,
-            height=50,
             command=lambda: self.add_product(
                 self.add_product_tab.name_entry.get(),
                 self.add_product_tab.product_id_entry.get(),
@@ -708,12 +741,12 @@ class Update_inventory_frame(ctk.CTkFrame):
             text="Confirm",
             font=("Inter", 18),
             fg_color="transparent",
+            width=250,
+            height=60,
             border_width=2,
             border_color="#5988F4",
             hover_color="#5988F4",
             corner_radius=10,
-            width=200,
-            height=50,
             command=lambda: self.update_product(
                 self.update_product_tab.product_id_entry.get(),
                 self.update_product_tab.price_entry.get(),
@@ -731,12 +764,12 @@ class Update_inventory_frame(ctk.CTkFrame):
             text="Confirm",
             font=("Inter", 18),
             fg_color="transparent",
+            width=250,
+            height=60,
             border_width=2,
             border_color="#5988F4",
             hover_color="#5988F4",
             corner_radius=10,
-            width=200,
-            height=50,
             command=lambda: self.delete_product(
                 self.delete_product_tab.product_id_entry.get(),
             ),
@@ -761,6 +794,18 @@ class Update_inventory_frame(ctk.CTkFrame):
             fg_color="transparent",
             command=lambda: self.view_inventory(),
         )
+        self.clear_text_box_button = ctk.CTkButton(
+            master=self,
+            text="Clear text box",
+            font=("Inter", 10),
+            width=150,
+            height=30,
+            border_width=2,
+            border_color="#465372",
+            hover_color="#465372",
+            fg_color="transparent",
+            command=lambda: self.clear_text_box(),
+        )
 
     def create_layout(self):
         """
@@ -770,32 +815,53 @@ class Update_inventory_frame(ctk.CTkFrame):
         self.grid_rowconfigure(3, weight=1)
 
         self.title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
-        self.tab_view.grid(row=1, column=0, columnspan=2, pady=10, sticky="n")
+        self.tab_view.grid(row=1, column=0, columnspan=2, pady=0, sticky="n")
 
         self.add_product_tab = self.tab_view.tab("Add Product")
         self.update_product_tab = self.tab_view.tab("Update Product")
         self.delete_product_tab = self.tab_view.tab("Delete Product")
 
         # Add product tab
-        self.add_product_tab.name_entry.grid(row=0, column=0, padx=10, pady=10, sticky="n")
-        self.add_product_tab.product_id_entry.grid(row=0, column=1, padx=10, pady=10, sticky="n")
-        self.add_product_tab.price_entry.grid(row=0, column=2, padx=10, pady=10, sticky="n")
-        self.add_product_tab.quantity_combo_box.grid(row=1, column=1, padx=10, pady=10, sticky="n")
-        self.add_product_tab.confirm_button.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky="n")
+        self.add_product_tab.name_entry.grid(
+            row=0, column=0, padx=10, pady=10, sticky="n"
+        )
+        self.add_product_tab.product_id_entry.grid(
+            row=0, column=1, padx=10, pady=10, sticky="n"
+        )
+        self.add_product_tab.price_entry.grid(
+            row=0, column=2, padx=10, pady=10, sticky="n"
+        )
+        self.add_product_tab.quantity_combo_box.grid(
+            row=1, column=1, padx=10, pady=10, sticky="n"
+        )
+        self.add_product_tab.confirm_button.grid(
+            row=2, column=0, columnspan=3, padx=40, pady=10, sticky="nsew"
+        )
 
         # Update product tab
-        self.update_product_tab.product_id_entry.grid(row=0, column=0, padx=10, pady=10, sticky="nw")
-        self.update_product_tab.price_entry.grid(row=0, column=1, padx=10, pady=10, sticky="n")
-        self.update_product_tab.quantity_combo_box.grid(row=0, column=2, padx=10, pady=10, sticky="ne")
-        self.update_product_tab.confirm_button.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky="n")
+        self.update_product_tab.product_id_entry.grid(
+            row=0, column=0, padx=10, pady=10, sticky="nw"
+        )
+        self.update_product_tab.price_entry.grid(
+            row=0, column=1, padx=10, pady=10, sticky="n"
+        )
+        self.update_product_tab.quantity_combo_box.grid(
+            row=0, column=2, padx=10, pady=10, sticky="ne"
+        )
+        self.update_product_tab.confirm_button.grid(
+            row=1, column=0, columnspan=3, padx=40, pady=10, sticky="nsew"
+        )
 
         # Delete product tab
         self.delete_product_tab.product_id_entry.pack(padx=10, pady=10)
-        self.delete_product_tab.confirm_button.pack(padx=10, pady=10)
+        self.delete_product_tab.confirm_button.pack(padx=40, pady=10, fill="both")
 
         # textbox and view inventory button
-        self.view_inventory_button.grid(row=2, column=0, columnspan=2, padx=10, pady=0, sticky="s")
-        self.text_box.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+        self.view_inventory_button.grid(row=2, column=0, padx=10, pady=0, sticky="se")
+        self.clear_text_box_button.grid(row=2, column=1, padx=10, pady=0, sticky="sw")
+        self.text_box.grid(
+            row=3, column=0, columnspan=2, padx=10, pady=10, sticky="nsew"
+        )
 
     def view_inventory(self):
         """
@@ -881,6 +947,12 @@ class Update_inventory_frame(ctk.CTkFrame):
          - text (str): The text to be inserted into the text box.
         """
         self.text_box.insert("end", text)
+
+    def clear_text_box(self):
+        """
+        Clears the text box.
+        """
+        self.text_box.delete("1.0", "end")
 
 
 def read_file(filename):

@@ -44,4 +44,4 @@ class App(ctk.CTk):
 
 
 if __name__ == "__main__":
-    app = App("Cash Register", (700, 500))
+    app = App("Cash Register", (700, 600))
