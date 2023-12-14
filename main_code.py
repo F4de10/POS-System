@@ -1,6 +1,5 @@
 """
-Exercise: lab 5 / cash_register version 3 (DD1321)
-Usage: main program, use cash_register_interface_v2.py for GUI
+Usage: main program, use starter.py for GUI
 Author: Nils Olivier
 Date: 12-12-2023
 """
@@ -88,7 +87,7 @@ class Menu(ctk.CTkFrame):
 
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        self.place(x=0, y=0, relwidth=0.3, relheight=1)
+        self.place(x=0, y=0, relwidth=0.31, relheight=1)
 
         self.create_widgets()
         self.create_layout()
@@ -97,10 +96,26 @@ class Menu(ctk.CTkFrame):
         """
         Creates and configures the widgets for the menu frame.
         """
+        self.frame = ctk.CTkFrame(
+            self,
+            fg_color="#1B1E23",
+            bg_color="#2D313C",
+            corner_radius=10,
+        )
+        self.title_label = ctk.CTkLabel(
+            self.frame,
+            text="POS System",
+            font=("Inter", 24, "bold"),
+            bg_color="#1B1E23",
+            fg_color="#1B1E23",
+            width=200,
+            height=50,
+        )
+        self.frame.place(relwidth=0.8, relheight=0.9, relx=0.1, rely=0.05)
 
         # Add buttons
         self.new_customer_button = ctk.CTkButton(
-            master=self,
+            master=self.frame,
             text="New customer",
             font=("Inter", 12),
             corner_radius=10,
@@ -112,7 +127,7 @@ class Menu(ctk.CTkFrame):
             command=lambda: self.master.switch_frame("New Customer"),
         )
         self.return_item_button = ctk.CTkButton(
-            master=self,
+            master=self.frame,
             text="Return item",
             font=("Inter", 12),
             corner_radius=10,
@@ -124,7 +139,7 @@ class Menu(ctk.CTkFrame):
             command=lambda: self.master.switch_frame("Return Item"),
         )
         self.update_inventory_button = ctk.CTkButton(
-            master=self,
+            master=self.frame,
             text="Update inventory",
             font=("Inter", 12),
             corner_radius=10,
@@ -136,7 +151,7 @@ class Menu(ctk.CTkFrame):
             command=lambda: self.master.switch_frame("Update Inventory"),
         )
         self.end_program_button = ctk.CTkButton(
-            master=self,
+            master=self.frame,
             text="End Program",
             font=("Inter", 12),
             width=150,
@@ -154,6 +169,13 @@ class Menu(ctk.CTkFrame):
         """
 
         # Place widgets
+        self.title_label.pack(
+            pady=20,
+            side="top",
+            fill="both",
+            padx=10,
+        )
+
         self.new_customer_button.pack(
             pady=10,
             side="top",
@@ -382,7 +404,7 @@ class New_customer_frame(ctk.CTkFrame):
         self.clear_shopping_cart_button.grid(
             row=4, column=0, columnspan=2, padx=10, pady=0, sticky="s"
         )
-        self.text_box.grid(row=5, columnspan=2, padx=10, pady=10, sticky="nsew")
+        self.text_box.grid(row=5, columnspan=2, padx=30, pady=30, sticky="nsew")
 
     def add_item(self, product_id, quantity):
         """
@@ -575,7 +597,7 @@ class Return_item_frame(ctk.CTkFrame):
         self.clear_text_box_button.grid(
             row=3, column=0, columnspan=2, padx=10, pady=0, sticky="s"
         )
-        self.text_box.grid(row=4, columnspan=2, padx=10, pady=10, sticky="nsew")
+        self.text_box.grid(row=4, columnspan=2, padx=30, pady=30, sticky="nsew")
 
     def return_item(self, product_id, quantity, shopping_cart={}):
         """
@@ -860,7 +882,7 @@ class Update_inventory_frame(ctk.CTkFrame):
         self.view_inventory_button.grid(row=2, column=0, padx=10, pady=0, sticky="se")
         self.clear_text_box_button.grid(row=2, column=1, padx=10, pady=0, sticky="sw")
         self.text_box.grid(
-            row=3, column=0, columnspan=2, padx=10, pady=10, sticky="nsew"
+            row=3, column=0, columnspan=2, padx=30, pady=30, sticky="nsew"
         )
 
     def view_inventory(self):

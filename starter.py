@@ -1,6 +1,5 @@
 """
-Exercise: lab 5 / cash_register version 3  (DD1321)
-Usage: GUI for cash_register_v3.py
+Usage: GUI for main_code.py
 Author: Nils Olivier
 Date: 12-12-2023
 """
@@ -25,10 +24,15 @@ class App(ctk.CTk):
         self.title(title)
         self.geometry(f"{size[0]}x{size[1]}")
         self.minsize(size[0], size[1])
+        self.configure(bg="#2D313C")
 
         # Widgets
-        self.menu = Menu(self, corner_radius=10, fg_color="#1B1E23")
-        self.main = Main(self, corner_radius=10, bg_color="#2D313C")
+        self.menu = Menu(
+            self,
+            fg_color="#2D313C",
+            corner_radius=0,
+        )
+        self.main = Main(self, bg_color="#2D313C")
 
         # Run
         self.mainloop()
@@ -44,4 +48,4 @@ class App(ctk.CTk):
 
 
 if __name__ == "__main__":
-    app = App("Cash Register", (700, 600))
+    app = App("Cash Register", (800, 600))
