@@ -1,0 +1,8 @@
+
+
+Receipt
+-------
+Items:
+Eggs (1006): 1.99 kr, 1 st
+Broccoli (1009): 1.75 kr, 7 st
+Total price: 14 kr

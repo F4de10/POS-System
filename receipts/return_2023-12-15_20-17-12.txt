@@ -1,0 +1,7 @@
+
+
+Receipt
+-------
+Items:
+Eggs (1006): 1.99 kr, 4 st
+Money returned: 8 kr
